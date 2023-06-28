@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Hashes App</title>
+</h:head>
+
+<h:body>
+    <div style="margin: auto; text-align: center">
+        <h:outputText value="Saved hashes" style="font-size: 45px; font-weight: bold"/>
+    </div>
+    <h:dataTable id="hashList" value="#{hashBean.getHashList()}" var="hash" style="border: solid; margin: auto">
+        <h:column style="border: solid">
+            <f:facet name="header">Hash</f:facet>
+            <h:outputText value="#{hash.hashValue}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Delete</f:facet>
+            <h:commandButton value="Delete" action="#{hashBean.removeHash(hash.id)}" style="color: red">
+                <f:ajax event="click" render="@all"/>
+            </h:commandButton>
+        </h:column>
+    </h:dataTable>
+    <br/><br/>
+    <div style="margin: auto; text-align: center">
+        <h:form id="formId" enctype="multipart/form-data" style="margin: auto">
+            <h:inputFile id="inputFile" value="#{hashBean.uploadedFile}">
+                <f:ajax listener="#{hashBean.uploadFile()}"/>
+            </h:inputFile>
+            <h:message for="inputFile" style="color: red;"/>
+            <br/><br/>
+            <h:outputText id="inputTextArea" value="#{hashBean.getHashToAdd().hashValue}"/>
+            <br/><br/>
+            <h:commandButton value="Show hash">
+                <f:ajax event="click" render="@all"/>
+            </h:commandButton>
+            <h:commandButton value="Save hash" action="#{hashBean.saveHash()}" style="color: green">
+                <f:ajax event="click" render="@all"/>
+            </h:commandButton>
+        </h:form>
+    </div>
+</h:body>
+</html>
